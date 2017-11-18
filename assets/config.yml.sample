@@ -1,0 +1,39 @@
+gateway:
+  pemfile: assets/local-public-pkcs8.pem
+  authWorkers: 8 
+
+endpoints:
+  - name: service1
+    key: service1
+    url: http://localhost:8181
+    authenticate: false
+    sharedTransport: service2
+  - name: service2
+    key: service2
+    url: http://localhost:8282
+    authenticate: false
+    
+server:
+  port: 9494
+  readTimeoutMs: 10000
+  writeTimeoutMs: 10000
+  
+proxy:
+  dialTimeoutMs: 10000
+  dialKeepAliveMs: 10000
+  maxIdleConns: 100
+  maxIdleConnsPerHost: 10
+  idleConnTimeoutMs: 30000
+  responseHeaderTimeoutMs: 3000
+  tlsHandshakeTimeoutMs: 500
+  expectContinueTimeoutMs: 500
+
+circuitBreaker:
+  maxHalfOpenRequests: 1
+  clearFailureCountIntervalMs: 10000  
+  halfOpenAfterMs: 5000
+  failuresToOpen: 10
+
+logger:
+  level: info
+  file: /tmp/foo.log
